@@ -1,4 +1,5 @@
 import createDataContext from './createDataContext';
+import trackerApi from '../api/tracker'
 
 //Las funciones reductoras siempre se llaman con estos dos argumentos state y action
 const authReducer = (state,action) => {
@@ -8,17 +9,16 @@ const authReducer = (state,action) => {
     }
 };
 
-const signup = (dispatch) => {
-    return({ email,password }) => {
-        //make api request to sign up with that email and password
-        
-        //if we sign up, modify our state, and say that we are authenticated
-
-        //if signing up fails, we probably need to reflect and error message
-
-        //somewere
+const signup = dispatch => {
+    return async ({ email, password }) => {
+      try {
+        const response = await trackerApi.post('/signup', { email, password });
+        console.log(response.data);
+      } catch (err) {
+        console.log(err.response.data);
+      }
     };
-};
+  };
 
 const signin = (dispatch) => {
     return({ email, password }) => {
